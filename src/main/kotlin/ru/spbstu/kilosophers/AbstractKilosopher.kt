@@ -61,8 +61,8 @@ abstract class AbstractKilosopher(private val left: Fork, private val right: For
             while (timeSpent < totalDuration) {
                 val action = nextAction()
                 val duration = action.duration
-                if (duration < 100) {
-                    throw AssertionError("You should wait at least 100 ms")
+                if (duration < 10) {
+                    throw AssertionError("You should wait at least 10 ms")
                 }
                 val result = doAction(action)
                 val randomDuration = duration + random.nextInt(9 * duration)

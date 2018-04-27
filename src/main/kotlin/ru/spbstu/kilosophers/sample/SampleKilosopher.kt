@@ -21,12 +21,12 @@ class SampleKilosopher(left: Fork, right: Fork) : AbstractKilosopher(left, right
 
     override fun nextAction(): Action {
         return when (state) {
-            WAITS_BOTH -> TAKE_LEFT(100)
-            WAITS_RIGHT -> TAKE_RIGHT(100)
-            EATS -> EAT(500)
-            HOLDS_BOTH -> DROP_LEFT(100)
-            HOLDS_RIGHT -> DROP_RIGHT(100)
-            THINKS -> THINK(1000)
+            WAITS_BOTH -> TAKE_LEFT(10)
+            WAITS_RIGHT -> TAKE_RIGHT(10)
+            EATS -> EAT(50)
+            HOLDS_BOTH -> DROP_LEFT(10)
+            HOLDS_RIGHT -> DROP_RIGHT(10)
+            THINKS -> THINK(100)
         }
     }
 

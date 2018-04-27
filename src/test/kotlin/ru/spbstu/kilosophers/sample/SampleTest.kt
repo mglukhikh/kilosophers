@@ -1,6 +1,10 @@
 package ru.spbstu.kilosophers.sample
 
+import kotlinx.coroutines.experimental.cancelAndJoin
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import ru.spbstu.kilosophers.AbstractKilosopher
@@ -22,10 +26,17 @@ class SampleTest {
             rightFork.left = kilosopher
         }
 
-        val jobs = kilosophers.map { it.act(10000) }
+        val jobs = kilosophers.map { it.act(20000) }
+
+        val controllerJob = launch {
+            delay(1000)
+            val owners = forks.map { it.owner }.distinct()
+            assertNotEquals("Deadlock detected, fork owners: $owners", count, owners.size)
+        }
 
         runBlocking {
             jobs.forEach { it.join() }
+            controllerJob.cancelAndJoin()
         }
 
         for (kilosopher in kilosophers) {
