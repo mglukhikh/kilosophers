@@ -7,6 +7,7 @@ import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import ru.spbstu.kilosophers.atomic.AtomicForkBox
 import ru.spbstu.kilosophers.concurrent.ConcurrentForkBox
 import ru.spbstu.kilosophers.sample.SampleUniversity
 
@@ -48,5 +49,10 @@ class SampleTest {
     @Test
     fun testSampleKilosopherWithConcurrentFork() {
         doTest(SampleUniversity, ConcurrentForkBox, kilosopherCount = 5, duration = 20000)
+    }
+
+    @Test
+    fun testSampleKilosopherWithAtomicFork() {
+        doTest(SampleUniversity, AtomicForkBox, kilosopherCount = 5, duration = 20000)
     }
 }
