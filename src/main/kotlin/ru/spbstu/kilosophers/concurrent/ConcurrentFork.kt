@@ -1,4 +1,4 @@
-package ru.spbstu.kilosophers.impl
+package ru.spbstu.kilosophers.concurrent
 
 import kotlinx.coroutines.experimental.newSingleThreadContext
 import kotlinx.coroutines.experimental.withContext
