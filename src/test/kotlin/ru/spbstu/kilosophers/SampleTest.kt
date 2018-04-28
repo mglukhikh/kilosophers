@@ -23,17 +23,21 @@ class SampleTest {
         }
 
         val jobs = kilosophers.map { it.act(duration) }
+        var owners: List<AbstractKilosopher> = emptyList()
 
         val controllerJob = launch {
-            delay(maxOf(100, minOf(duration / 50, 1000)))
-            val owners = forks.map { it.owner }.distinct()
-            assertNotEquals("Deadlock detected, fork owners: $owners", kilosopherCount, owners.size)
+            do {
+                delay(maxOf(100, minOf(duration / 50, 1000)))
+                owners = forks.mapNotNull { it.owner }.distinct()
+            } while (owners.size < kilosopherCount)
         }
 
         runBlocking {
             jobs.forEach { it.join() }
             controllerJob.cancelAndJoin()
         }
+
+        assertNotEquals("Deadlock detected, fork owners: $owners", kilosopherCount, owners.size)
 
         for (kilosopher in kilosophers) {
             assertTrue("Eat durations: ${kilosophers.map { it.eatDuration }}", kilosopher.eatDuration > 0)
