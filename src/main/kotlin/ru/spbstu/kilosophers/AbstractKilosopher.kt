@@ -73,8 +73,12 @@ abstract class AbstractKilosopher(private val left: Fork, private val right: For
         }
     }
 
+    // Called when kilosopher should choose his next action (take or drop fork, think, or eat)
     protected abstract fun nextAction(): Action
 
+    // Called to provide result of previous action to kilosopher
+    // true means action was successful (fork taken, spaghetti eaten)
+    // false means action was not successful (fork busy, or did not have two forks to eat spaghetti)
     protected abstract fun handleResult(action: Action, result: Boolean)
 
     companion object {
