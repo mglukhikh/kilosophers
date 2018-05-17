@@ -17,6 +17,10 @@ fun main(args: Array<String>) {
             }
         }
 
+        if (table.kilosophers.all { it.state == MyKilosopher.State.WAITS_RIGHT }) {
+            throw IllegalStateException("Have a lock: everybody waits")
+        }
+
         Thread.sleep(500)
         ++tick
         if (tick % 1000 == 0) {
