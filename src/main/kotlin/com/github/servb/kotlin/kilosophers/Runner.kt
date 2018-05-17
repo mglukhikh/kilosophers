@@ -3,7 +3,7 @@ package com.github.servb.kotlin.kilosophers
 fun main(args: Array<String>) {
     val n = 5
     val eatStat = IntArray(n, { 0 })
-    val table = Table(n)
+    var table = Table(n)
 
     var tick = 0
     while (true) {
@@ -18,7 +18,12 @@ fun main(args: Array<String>) {
         }
 
         if (table.isLocked) {
-            throw IllegalStateException("Have a lock: everybody waits")
+            if (tick == 1) {  // TODO: Fix this workaround
+                table = Table(n)
+                tick = 0
+            } else {
+                throw IllegalStateException("Have a lock: everybody waits. Tick: $tick.")
+            }
         }
 
         Thread.sleep(500)
