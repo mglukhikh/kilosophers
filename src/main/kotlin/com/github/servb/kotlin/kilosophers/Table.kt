@@ -9,4 +9,6 @@ class Table(val n: Int) {
     val kilosophers = Array(n, { MyKilosopher(forks[it % n], forks[(it + 1) % n], waiter) })
 
     val freeForks get() = forks.filter { it.isFree() }.size
+
+    val isLocked get() = kilosophers.all { it.state == MyKilosopher.State.WAITS_RIGHT }
 }

@@ -17,7 +17,7 @@ fun main(args: Array<String>) {
             }
         }
 
-        if (table.kilosophers.all { it.state == MyKilosopher.State.WAITS_RIGHT }) {
+        if (table.isLocked) {
             throw IllegalStateException("Have a lock: everybody waits")
         }
 
