@@ -10,7 +10,7 @@ fun main(args: Array<String>) {
     var tick = 0
     runBlocking {
         while (true) {
-            table.kilosophers.map { it.act(100) }.forEach { it.join() }
+            table.kilosophers.shuffled().map { it.act(100) }.forEach { it.join() }
 
             for ((i, nowKilosopher) in table.kilosophers.withIndex()) {
                 if (nowKilosopher.state == MyKilosopher.State.EATS) {
