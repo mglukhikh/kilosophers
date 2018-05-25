@@ -1,29 +1,33 @@
 package com.github.servb.kotlin.kilosophers
 
+import kotlinx.coroutines.experimental.*
+
 fun main(args: Array<String>) {
     val n = 5
     val eatStat = IntArray(n) { 0 }
     val table = Table(n)
 
     var tick = 0
-    while (true) {
-        for ((i, nowKilosopher) in table.kilosophers.withIndex()) {
-            nowKilosopher.act(100)
+    runBlocking {
+        while (true) {
+            table.kilosophers.map { it.act(100) }.forEach { it.join() }
 
-            if (nowKilosopher.state == MyKilosopher.State.EATS) {
-                ++eatStat[i]
-                println("$tick: $i eats! Stats: ${eatStat.joinToString(" ")}.")
+            for ((i, nowKilosopher) in table.kilosophers.withIndex()) {
+                if (nowKilosopher.state == MyKilosopher.State.EATS) {
+                    ++eatStat[i]
+                    println("$tick: $i eats! Stats: ${eatStat.joinToString(" ")}.")
+                }
             }
-        }
 
-        if (table.isLocked) {
-            throw IllegalStateException("Have a lock: everybody waits. Tick: $tick.")
-        }
+            if (table.isLocked) {
+                throw IllegalStateException("Have a lock: everybody waits. Tick: $tick.")
+            }
 
-        Thread.sleep(500)
-        ++tick
-        if (tick % 1000 == 0) {
-            println("$tick ticks passed")
+            ++tick
+            table.waiter.resetAllowedCount()
+            if (tick % 10 == 0) {
+                println("$tick: ${table.states}")
+            }
         }
     }
 }

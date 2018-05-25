@@ -5,11 +5,13 @@ class WaiterNearTable(private val table: Table) {
 
     val takingAllowed: Boolean get() {
         val result = table.freeForks - alreadyAllowed > 1
-        ++alreadyAllowed
+        if (result) {
+            ++alreadyAllowed
+        }
         return result
     }
 
-    fun returnAllowedFork() {
-        alreadyAllowed = Math.max(0, alreadyAllowed - 1)
+    fun resetAllowedCount() {
+        alreadyAllowed = 0
     }
 }

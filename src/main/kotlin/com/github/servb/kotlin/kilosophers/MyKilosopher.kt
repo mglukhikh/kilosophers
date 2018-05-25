@@ -24,17 +24,13 @@ class MyKilosopher(left: Fork, right: Fork, private val waiter: WaiterNearTable)
     override fun nextAction(): Action {
         return when (state) {
             WAITS_BOTH -> if (waiter.takingAllowed) {
-                                println("Taking was allowed")
                                 ActionKind.TAKE_LEFT(10)
                             } else {
                                 ActionKind.THINK(10)
                             }
             WAITS_RIGHT -> ActionKind.TAKE_RIGHT(10)
             EATS -> ActionKind.EAT(10)
-            HOLDS_BOTH -> {
-                waiter.returnAllowedFork()
-                ActionKind.DROP_LEFT(10)
-            }
+            HOLDS_BOTH -> ActionKind.DROP_LEFT(10)
             HOLDS_RIGHT -> ActionKind.DROP_RIGHT(10)
             THINKS -> ActionKind.THINK(10)
         }

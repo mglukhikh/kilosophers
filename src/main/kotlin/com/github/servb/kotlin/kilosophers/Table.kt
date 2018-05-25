@@ -11,4 +11,6 @@ class Table(val n: Int) {
     val freeForks get() = forks.count { it.isFree() }
 
     val isLocked get() = kilosophers.all { it.state == MyKilosopher.State.WAITS_RIGHT }
+
+    val states get() = kilosophers.joinToString(", ") { it.state.toString() }
 }
