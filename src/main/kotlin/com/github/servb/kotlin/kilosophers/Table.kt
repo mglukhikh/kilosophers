@@ -6,7 +6,7 @@ class Table(val n: Int) {
     val waiter = WaiterNearTable(this)
 
     val forks = List(n) { AtomicFork() }
-    val kilosophers = List(n, { MyKilosopher(forks[it % n], forks[(it + 1) % n], waiter) })
+    val kilosophers = List(n) { MyKilosopher(forks[it % n], forks[(it + 1) % n], waiter) }
 
     val freeForks get() = forks.count { it.isFree() }
 
