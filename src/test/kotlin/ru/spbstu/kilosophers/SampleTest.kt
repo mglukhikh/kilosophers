@@ -4,12 +4,12 @@ import kotlinx.coroutines.experimental.cancelAndJoin
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
-import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
 import ru.spbstu.kilosophers.atomic.AtomicForkBox
 import ru.spbstu.kilosophers.concurrent.ConcurrentForkBox
 import ru.spbstu.kilosophers.sample.SampleUniversity
+import kotlin.test.assertNotEquals
+import kotlin.test.assertTrue
+import kotlin.test.Test
 
 class SampleTest {
 
@@ -38,10 +38,10 @@ class SampleTest {
             controllerJob.cancelAndJoin()
         }
 
-        assertNotEquals("Deadlock detected, fork owners: $owners", kilosopherCount, owners.size)
+        assertNotEquals(kilosopherCount, owners.size, "Deadlock detected, fork owners: $owners")
 
         for (kilosopher in kilosophers) {
-            assertTrue("Eat durations: ${kilosophers.map { it.eatDuration }}", kilosopher.eatDuration > 0)
+            assertTrue(kilosopher.eatDuration > 0, "Eat durations: ${kilosophers.map { it.eatDuration }}")
         }
 
     }
