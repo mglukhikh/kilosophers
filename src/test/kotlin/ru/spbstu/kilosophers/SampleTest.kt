@@ -1,9 +1,9 @@
 package ru.spbstu.kilosophers
 
-import kotlinx.coroutines.experimental.cancelAndJoin
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.spbstu.kilosophers.atomic.AtomicForkBox
 import ru.spbstu.kilosophers.concurrent.ConcurrentForkBox
 import ru.spbstu.kilosophers.sample.SampleUniversity
@@ -28,7 +28,7 @@ class SampleTest {
 
         val controllerJob = launch {
             do {
-                delay(maxOf(100, minOf(duration / 50, 1000)))
+                delay(maxOf(100, minOf(duration / 50, 1000)).toLong())
                 owners = forks.mapNotNull { it.owner }.distinct()
             } while (owners.size < kilosopherCount)
         }

@@ -1,7 +1,7 @@
 package ru.spbstu.kilosophers.concurrent
 
-import kotlinx.coroutines.experimental.newSingleThreadContext
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.withContext
 import ru.spbstu.kilosophers.AbstractFork
 import ru.spbstu.kilosophers.AbstractKilosopher
 

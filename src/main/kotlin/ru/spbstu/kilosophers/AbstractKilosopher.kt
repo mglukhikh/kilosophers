@@ -1,8 +1,8 @@
 package ru.spbstu.kilosophers
 
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 abstract class AbstractKilosopher(private val left: Fork, private val right: Fork) {
@@ -66,7 +66,7 @@ abstract class AbstractKilosopher(private val left: Fork, private val right: For
                 }
                 val result = doAction(action)
                 val randomDuration = duration + random.nextInt(9 * duration)
-                delay(randomDuration)
+                delay(randomDuration.toLong())
                 timeSpent += randomDuration
                 handleResult(action, result)
             }
