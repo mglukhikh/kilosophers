@@ -1,5 +1,6 @@
 package ru.spbstu.kilosophers
 
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -57,7 +58,7 @@ abstract class AbstractKilosopher(private val left: Fork, private val right: For
 
     fun act(totalDuration: Int): Job {
         var timeSpent = 0
-        return launch {
+        return GlobalScope.launch {
             while (timeSpent < totalDuration) {
                 val action = nextAction()
                 val duration = action.duration
