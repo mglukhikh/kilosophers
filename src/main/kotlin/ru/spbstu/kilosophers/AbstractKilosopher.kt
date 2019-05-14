@@ -1,9 +1,6 @@
 package ru.spbstu.kilosophers
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 abstract class AbstractKilosopher(private val left: Fork, private val right: Fork) {
