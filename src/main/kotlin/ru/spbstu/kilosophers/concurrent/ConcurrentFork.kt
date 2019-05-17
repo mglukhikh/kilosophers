@@ -1,14 +1,16 @@
 package ru.spbstu.kilosophers.concurrent
 
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.spbstu.kilosophers.AbstractFork
 import ru.spbstu.kilosophers.AbstractKilosopher
+import java.util.concurrent.Executors
 
 private class ConcurrentFork : AbstractFork() {
     private val index = forkNumber++
 
-    private val forkContext = newSingleThreadContext("Fork $index context")
+    private val forkContext = Executors.newSingleThreadExecutor().asCoroutineDispatcher() + CoroutineName("Fork $index")
 
     override var owner: AbstractKilosopher? = null
 
