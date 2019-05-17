@@ -6,7 +6,7 @@ import ru.spbstu.kilosophers.ActionKind.*
 import ru.spbstu.kilosophers.Fork
 import ru.spbstu.kilosophers.sample.SampleKilosopher.State.*
 
-class SampleKilosopher(left: Fork, right: Fork) : AbstractKilosopher(left, right) {
+class SampleKilosopher(left: Fork, right: Fork, val index: Int) : AbstractKilosopher(left, right) {
 
     internal enum class State {
         WAITS_BOTH,
@@ -39,5 +39,9 @@ class SampleKilosopher(left: Fork, right: Fork) : AbstractKilosopher(left, right
             DROP_RIGHT -> if (result) THINKS else HOLDS_RIGHT
             THINK -> WAITS_BOTH
         }
+    }
+
+    override fun toString(): String {
+        return "Kilosopher #$index"
     }
 }

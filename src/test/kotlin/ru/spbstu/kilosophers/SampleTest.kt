@@ -16,7 +16,7 @@ class SampleTest {
         for (index in 0 until kilosopherCount) {
             val leftFork = forks[index]
             val rightFork = forks[(index + 1) % kilosopherCount]
-            val kilosopher = university.produce(leftFork, rightFork)
+            val kilosopher = university.produce(leftFork, rightFork, index)
             kilosophers.add(kilosopher)
         }
 
