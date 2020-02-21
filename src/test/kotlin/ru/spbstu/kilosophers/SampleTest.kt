@@ -4,9 +4,14 @@ import kotlinx.coroutines.*
 import ru.spbstu.kilosophers.atomic.AtomicForkBox
 import ru.spbstu.kilosophers.concurrent.ConcurrentForkBox
 import ru.spbstu.kilosophers.sample.SampleUniversity
+import ru.spbstu.kilosophers.served.ServedUniversity
+import kotlin.test.Ignore
+import kotlin.test.Test
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
-import kotlin.test.Test
+
+const val DURATION = 20_000
+
 
 class SampleTest {
 
@@ -40,16 +45,27 @@ class SampleTest {
         for (kilosopher in kilosophers) {
             assertTrue(kilosopher.eatDuration > 0, "Eat durations: ${kilosophers.map { it.eatDuration }}")
         }
-
     }
 
+    @Ignore
     @Test
     fun testSampleKilosopherWithConcurrentFork() {
-        doTest(SampleUniversity, ConcurrentForkBox, kilosopherCount = 5, duration = 20000)
+        doTest(SampleUniversity, ConcurrentForkBox, kilosopherCount = 5, duration = DURATION)
+    }
+
+    @Ignore
+    @Test
+    fun testSampleKilosopherWithAtomicFork() {
+        doTest(SampleUniversity, AtomicForkBox, kilosopherCount = 5, duration = DURATION)
     }
 
     @Test
-    fun testSampleKilosopherWithAtomicFork() {
-        doTest(SampleUniversity, AtomicForkBox, kilosopherCount = 5, duration = 20000)
+    fun testServedKilosopherWithConcurrentFork() {
+        doTest(ServedUniversity, ConcurrentForkBox, kilosopherCount = 5, duration = DURATION)
+    }
+
+    @Test
+    fun testServedKilosopherWithAtomicFork() {
+        doTest(ServedUniversity, AtomicForkBox, kilosopherCount = 5, duration = DURATION)
     }
 }
