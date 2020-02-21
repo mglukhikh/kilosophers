@@ -11,6 +11,7 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 const val DURATION = 20_000
+const val KILOSOPHER_COUNT = 10
 
 
 class SampleTest {
@@ -32,6 +33,7 @@ class SampleTest {
             do {
                 delay(maxOf(100, minOf(duration / 50, 1000)).toLong())
                 owners = forks.mapNotNull { it.owner }.distinct()
+                println(owners)
             } while (owners.size < kilosopherCount)
         }
 
@@ -50,22 +52,22 @@ class SampleTest {
     @Ignore
     @Test
     fun testSampleKilosopherWithConcurrentFork() {
-        doTest(SampleUniversity, ConcurrentForkBox, kilosopherCount = 5, duration = DURATION)
+        doTest(SampleUniversity, ConcurrentForkBox, kilosopherCount = KILOSOPHER_COUNT, duration = DURATION)
     }
 
     @Ignore
     @Test
     fun testSampleKilosopherWithAtomicFork() {
-        doTest(SampleUniversity, AtomicForkBox, kilosopherCount = 5, duration = DURATION)
+        doTest(SampleUniversity, AtomicForkBox, kilosopherCount = KILOSOPHER_COUNT, duration = DURATION)
     }
 
     @Test
     fun testServedKilosopherWithConcurrentFork() {
-        doTest(ServedUniversity, ConcurrentForkBox, kilosopherCount = 5, duration = DURATION)
+        doTest(ServedUniversity(), ConcurrentForkBox, kilosopherCount = KILOSOPHER_COUNT, duration = DURATION)
     }
 
     @Test
     fun testServedKilosopherWithAtomicFork() {
-        doTest(ServedUniversity, AtomicForkBox, kilosopherCount = 5, duration = DURATION)
+        doTest(ServedUniversity(), AtomicForkBox, kilosopherCount = KILOSOPHER_COUNT, duration = DURATION)
     }
 }

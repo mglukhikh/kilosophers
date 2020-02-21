@@ -8,7 +8,12 @@ import ru.spbstu.kilosophers.served.ServedKilosopher.State.*
 import java.util.concurrent.Semaphore
 
 
-class ServedKilosopher(left: Fork, right: Fork, private val index: Int, private val semaphore: Semaphore) : AbstractKilosopher(left, right) {
+class ServedKilosopher(
+        left: Fork,
+        right: Fork,
+        private val index: Int,
+        private val semaphore: Semaphore
+) : AbstractKilosopher(left, right) {
 
     internal enum class State {
         WAITS_BOTH,
@@ -32,21 +37,14 @@ class ServedKilosopher(left: Fork, right: Fork, private val index: Int, private 
                 }
             }
             WAITS_RIGHT -> {
-                val isAvailable = semaphore.tryAcquire()
-                if (isAvailable) {
-                    TAKE_RIGHT(10)
-                } else {
-                    TAKE_RIGHT(10)
-                }
+                TAKE_RIGHT(10)
             }
             EATS -> EAT(50)
             HOLDS_BOTH -> {
-                semaphore.release()
                 DROP_LEFT(10)
             }
             HOLDS_RIGHT -> {
-                semaphore.release()
-                DROP_RIGHT(10)
+                DROP_RIGHT(10).also { semaphore.release(2) }
             }
             THINKS -> THINK(50)
         }
@@ -54,12 +52,12 @@ class ServedKilosopher(left: Fork, right: Fork, private val index: Int, private 
 
     override fun handleResult(action: Action, result: Boolean) {
         state = when (action.kind) {
-            TAKE_LEFT -> if (result) WAITS_RIGHT else WAITS_BOTH
-            TAKE_RIGHT -> if (result) EATS else WAITS_RIGHT
+            TAKE_LEFT -> if (result) WAITS_RIGHT else WAITS_BOTH.also { semaphore.release() }
+            TAKE_RIGHT -> if (result) EATS else WAITS_RIGHT.also { semaphore.release() }
             EAT -> HOLDS_BOTH
             DROP_LEFT -> if (result) HOLDS_RIGHT else HOLDS_BOTH
             DROP_RIGHT -> if (result) THINKS else HOLDS_RIGHT
-            THINK -> WAITS_BOTH
+            THINK -> if (state == WAITS_RIGHT) WAITS_RIGHT else WAITS_BOTH
         }
     }
 

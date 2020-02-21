@@ -6,9 +6,8 @@ import ru.spbstu.kilosophers.University
 import java.util.concurrent.Semaphore
 
 
-object ServedUniversity : University {
-        private val semaphore = Semaphore(-1)
-
+class ServedUniversity : University {
+    private val semaphore = Semaphore(-1)
 
     override fun produce(left: AbstractFork, right: AbstractFork, vararg args: Any): AbstractKilosopher {
         val kilosopher = ServedKilosopher(left, right, args[0] as Int, semaphore)
@@ -16,7 +15,6 @@ object ServedUniversity : University {
         right.left = kilosopher
 
         semaphore.release()
-
 
         return kilosopher
     }
